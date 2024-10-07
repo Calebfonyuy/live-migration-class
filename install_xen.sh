@@ -1,4 +1,17 @@
 #! /bin/bash
+
+# Path to the GRUB configuration file
+GRUB_CONFIG="/boot/grub/grub.cfg"
+
+# Check if the GRUB config file contains Xen entries
+if grep -q "xen" "$GRUB_CONFIG"; then
+    echo "Xen hypervisor entry found in GRUB. Installation aborted."
+    exit 0
+else
+    echo "No Xen hypervisor entry found. Proceeding with installation."
+    # Place your installation commands here
+fi
+
 sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list
 apt-get update
 apt-get upgrade -y
@@ -19,7 +32,7 @@ apt-get -y install ninja-build
 
 git clone git://xenbits.xen.org/xen.git xen_source
 
-cd xen_source
+cd xen_source || exit
 
 git checkout stable-4.18
 
