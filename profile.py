@@ -25,6 +25,7 @@ for c_type in clientTypes:
     nfsClient.routable_control_ip = True
     c_iface = nfsClient.addInterface('interface-'+str(ip_count+1), pg.IPv4Address('192.168.6.'+str(ip_count),'255.255.255.0'))
     ifaces.append(c_iface)
+    nfsClient.addService(pg.Execute(shell="sh", command="sudo /bin/bash /local/repository/install_xen.sh"))
     ip_count = ip_count + 1
 
 
